@@ -1,0 +1,4 @@
+loc
+===
+
+Lua Object Compiler
