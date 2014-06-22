@@ -1,4 +1,2 @@
-loc
-===
-
 Lua Object Compiler
+===================
