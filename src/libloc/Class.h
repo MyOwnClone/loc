@@ -2,10 +2,14 @@
 
 #include "Type.h"
 
-class Class: public Type
+namespace loc {
+
+class Class: public Type, public Base<Class>
 {
   public:
     Class();
 
     virtual ~Class();
 };
+
+}

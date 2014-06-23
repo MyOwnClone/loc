@@ -1,8 +1,8 @@
 #pragma once
 
-#include <atomic>
-#include <string>
-#include <map>
+#include "Base.h"
+
+namespace loc {
 
 template <typename char_traits>
 class BasicRefString
@@ -203,7 +203,7 @@ class BasicRefString
       int getNumReferences() const { return refCount; }
 
     private:
-      mutable std::atomic_int refCount;
+      mutable int refCount;
 
       ~Data()
       {
@@ -289,3 +289,5 @@ class BasicRefStringPool
 
 typedef BasicRefStringPool<std::char_traits<char>> RefStringPool;
 typedef BasicRefStringPool<std::char_traits<wchar_t>> RefWStringPool;
+
+}

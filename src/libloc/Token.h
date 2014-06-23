@@ -2,6 +2,8 @@
 
 #include "RefString.h"
 
+namespace loc {
+
 struct Token
 {
   enum class Type
@@ -53,3 +55,5 @@ struct Token
   Token();
 
 };
+
+}

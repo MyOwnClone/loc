@@ -1,0 +1,14 @@
+Debug/
+Release/
+x64/
+src/libloc/x64/
+src/libloc/Debug/
+src/libloc/Release/
+src/loc/x64/
+src/loc/Debug/
+src/loc/Release/
+*.opensdf
+*.sdf
+*.suo
+*.loc
+*.user

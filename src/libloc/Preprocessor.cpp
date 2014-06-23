@@ -5,6 +5,8 @@
 #include <boost/wave.hpp>
 #include <boost/wave/cpplexer/cpp_lex_iterator.hpp>
 
+namespace loc {
+
 struct CustomHooks: boost::wave::context_policies::default_preprocessing_hooks
 {
   template <typename ContextT>
@@ -97,19 +99,15 @@ Preprocessor::~Preprocessor()
 
 }
 
-bool Preprocessor::process(const std::string &fileName, Tokens *tokens, std::string *finalOutput)
+bool Preprocessor::processString(const char *str, Tokens *tokens, std::string *finalOutput, const char *fileName)
 {
-  std::ifstream instream(fileName);
-  if (instream.bad() || !instream.is_open() || instream.fail())
-    return false;
-  
-  std::string input(std::istreambuf_iterator<char>(instream.rdbuf()), std::istreambuf_iterator<char>());
-  
   typedef boost::wave::cpplexer::lex_iterator<boost::wave::cpplexer::lex_token<> > lex_iterator_type;
   typedef boost::wave::iteration_context_policies::load_file_to_string load_file_to_string_policy;
   typedef boost::wave::context<std::string::iterator, lex_iterator_type, load_file_to_string_policy, CustomHooks> context_type;
 
-  context_type ctx(input.begin(), input.end(), fileName.c_str());
+  std::string input = str;
+
+  context_type ctx(input.begin(), input.end(), fileName);
   ctx.set_language((boost::wave::language_support)(boost::wave::support_cpp11 | boost::wave::support_option_preserve_comments));
   ctx.add_macro_definition("LOC_RUNNING");
   ctx.add_include_path(".");
@@ -201,4 +199,17 @@ bool Preprocessor::process(const std::string &fileName, Tokens *tokens, std::str
   }
 
   return true;
+}
+
+bool Preprocessor::processFile(const char *fileName, Tokens *tokens, std::string *finalOutput)
+{
+  std::ifstream instream(fileName);
+  if (instream.bad() || !instream.is_open() || instream.fail())
+    return false;
+  
+  std::string input(std::istreambuf_iterator<char>(instream.rdbuf()), std::istreambuf_iterator<char>());
+  
+  return processString(input.c_str(), tokens, finalOutput, fileName);
+}
+
 }

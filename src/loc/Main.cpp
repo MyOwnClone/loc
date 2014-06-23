@@ -1,18 +1,18 @@
 #include <iostream>
 #include <fstream>
 
-#include "Preprocessor.h"
+#include <libloc/Preprocessor.h>
 
 int main(int argc, char *argv[])
 {
-  Preprocessor p;
+  loc::Preprocessor p;
 
-  Preprocessor::Tokens tokens;
+  loc::Preprocessor::Tokens tokens;
   std::string output;
 
-  p.process("test.h", &tokens, &output);
+  p.processFile("test.h", &tokens, &output);
 
-  RefString currentFile;
+  loc::RefString currentFile;
 
   FILE *fw = fopen("output.tok", "wb");
   if (fw)

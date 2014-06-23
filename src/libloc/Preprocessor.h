@@ -5,6 +5,8 @@
 
 #include "Token.h"
 
+namespace loc {
+
 class Preprocessor
 {
   public:
@@ -28,10 +30,14 @@ class Preprocessor
 
     const Defines &getDefines() const { return _defines; }
 
-    bool process(const std::string &fileName, Tokens *tokens = nullptr, std::string *finalOutput = nullptr);
+    bool processString(const char *str, Tokens *tokens = nullptr, std::string *finalOutput = nullptr, const char *fileName = nullptr);
+
+    bool processFile(const char *fileName, Tokens *tokens = nullptr, std::string *finalOutput = nullptr);
 
   private:
     IncludeDirs _includeDirs;
 
     Defines _defines;
 };
+
+}
