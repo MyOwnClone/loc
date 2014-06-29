@@ -1,31 +1,19 @@
 #pragma once
 
+#pragma warning(disable: 4251)
+
+#if defined(LIBLOC_BUILD_SHARED)
+#define LIBLOC_EXPORT __declspec(dllexport)
+#else
+#define LIBLOC_EXPORT
+#endif
+
 #include <memory>
-#include <vector>
 #include <map>
-#include <string>
+
+#include "StringUtils.h"
+#include "RefString.h"
 
 namespace loc {
-
-template <typename T>
-class Base: public std::enable_shared_from_this<T>
-{
-  public:
-    typedef std::shared_ptr<T> Ptr;
-    typedef std::shared_ptr<const T> ConstPtr;
-    typedef std::weak_ptr<T> WeakPtr;
-    typedef std::weak_ptr<const T> ConstWeakPtr;
-
-    virtual ~Base()
-    {
-    
-    }
-
-  protected:
-    Base()
-    {
-    
-    }
-};
 
 }

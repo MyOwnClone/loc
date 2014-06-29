@@ -2,37 +2,29 @@
 
 namespace loc {
 
-Namespace::Namespace(const std::string &name)
-  : _name(name)
+Namespace::Namespace()
 {
 
 }
 
 Namespace::~Namespace()
 {
-
+  for (auto &kvp: _children)
+    delete kvp.second;
 }
 
-bool Namespace::setParent(const Namespace::Ptr &parent)
+Namespace *Namespace::getOrCreateChild(const char *name)
 {
-  Namespace::Ptr oldParent = getParent();
-  if (oldParent != parent)
-  {
-    if (parent)
-    {
-      if (parent->_children.find(_name) == parent->_children.end())
-        parent->_children[_name] = shared_from_this();
-      else
-        return false;
+  Children::iterator iter = _children.find(name);
+  if (iter != _children.end())
+    return iter->second;
 
-      _parent = parent;
+  Namespace *child = new Namespace();
+  child->_name = name;
+  child->_parent = this;
+  _children[name] = child;
 
-      if (oldParent)
-        oldParent->_children.erase(oldParent->_children.find(_name));
-    }
-  }
-
-  return true;
+  return child;
 }
 
 }

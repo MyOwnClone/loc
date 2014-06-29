@@ -7,7 +7,7 @@
 
 namespace loc {
 
-class Preprocessor
+class LIBLOC_EXPORT Preprocessor
 {
   public:
     Preprocessor();

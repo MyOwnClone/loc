@@ -1,15 +1,17 @@
 #pragma once
 
-#include "RefString.h"
+#include "Base.h"
 
 namespace loc {
 
-struct Token
+struct LIBLOC_EXPORT Token
 {
   enum class Type
   {
     Unknown = 0,
     Whitespace,
+    NewLine,
+    DirectiveLine,
     Comment,
     Identifier,
     Integer,
@@ -38,7 +40,7 @@ struct Token
     End
   };
 
-  Type type;
+  Type tokenType;
   
   RefString text;
 

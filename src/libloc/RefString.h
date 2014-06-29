@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Base.h"
+#include <string>
 
 namespace loc {
 
@@ -68,7 +68,7 @@ class BasicRefString
 
     const_pointer c_str() const { return _data->string.c_str(); }
 
-    std::basic_string<value_type> stl_str() const { return std::basic_string<value_type>(_data); }
+    std::basic_string<value_type> stl_str() const { return std::basic_string<value_type>(_data->string); }
 
     bool empty() const { return _data->string.empty(); }
 

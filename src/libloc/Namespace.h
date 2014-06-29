@@ -4,29 +4,42 @@
 
 namespace loc {
 
-class Namespace: public Base<Namespace>
+// Forward declarations
+class Type;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class LIBLOC_EXPORT Namespace
 {
   public:
-    Namespace(const std::string &name);
+    Namespace();
 
     virtual ~Namespace();
 
     const std::string &getName() const { return _name; }
 
-    typedef std::map<std::string, Namespace::Ptr> Children;
+    typedef std::map<std::string, Namespace *> Children;
 
-    virtual bool setParent(const Namespace::Ptr &parent);
-
-    Namespace::Ptr getParent() const { return _parent.lock(); }
+    Namespace *getParent() const { return _parent; }
 
     const Children &getChildren() const { return _children; }
+
+    size_t getNumChildren() const { return _children.size(); }
+
+    Namespace *getOrCreateChild(const char *name);
+
+    typedef std::map<std::string, Type *> Types;
+
+    const Types &getTypes() const { return _types; }
 
   private:
     std::string _name;
 
-    Namespace::WeakPtr _parent;
+    Namespace *_parent;
 
     Children _children;
+
+    Types _types;
 };
 
 }

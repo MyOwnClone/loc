@@ -1,6 +1,10 @@
+ipch/
 Debug/
 Release/
 x64/
+src/liblocCLR/x64/
+src/liblocCLR/Debug/
+src/liblocCLR/Release/
 src/libloc/x64/
 src/libloc/Debug/
 src/libloc/Release/

@@ -4,7 +4,7 @@
 
 namespace loc {
 
-class Class: public Type, public Base<Class>
+class LIBLOC_EXPORT Class: public Type
 {
   public:
     Class();

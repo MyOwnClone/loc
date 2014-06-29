@@ -3,7 +3,7 @@
 namespace loc {
 
 Token::Token()
-  : type(Type::Unknown)
+  : tokenType(Type::Unknown)
   , lineNumber(0)
   , columnNumber(0)
   , integer(0)

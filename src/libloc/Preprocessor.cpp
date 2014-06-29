@@ -10,7 +10,7 @@ namespace loc {
 struct CustomHooks: boost::wave::context_policies::default_preprocessing_hooks
 {
   template <typename ContextT>
-  bool found_include_directive(ContextT const &ctx, std::string const &filename, bool include_next)
+  bool found_include_directive(const ContextT &ctx, const std::string &filename, bool include_next)
   {
     bool isSystem = filename[0] == '<';
     std::string path = filename.substr(1, filename.length() - 2);
@@ -34,7 +34,8 @@ static WaveID2TokenType waveID2TokenTypeTable[] =
 {
   { boost::wave::T_SPACE, Token::Type::Whitespace },
   { boost::wave::T_SPACE2, Token::Type::Whitespace },
-  { boost::wave::T_NEWLINE, Token::Type::Whitespace },
+  { boost::wave::T_NEWLINE, Token::Type::NewLine },
+  { boost::wave::T_PP_LINE, Token::Type::DirectiveLine },
   { boost::wave::T_CCOMMENT, Token::Type::Comment },
   { boost::wave::T_CPPCOMMENT, Token::Type::Comment },
   { boost::wave::T_IDENTIFIER, Token::Type::Identifier },
@@ -108,7 +109,7 @@ bool Preprocessor::processString(const char *str, Tokens *tokens, std::string *f
   std::string input = str;
 
   context_type ctx(input.begin(), input.end(), fileName);
-  ctx.set_language((boost::wave::language_support)(boost::wave::support_cpp11 | boost::wave::support_option_preserve_comments));
+  ctx.set_language((boost::wave::language_support)(boost::wave::support_cpp11 | boost::wave::support_option_preserve_comments | boost::wave::support_option_emit_line_directives));
   ctx.add_macro_definition("LOC_RUNNING");
   ctx.add_include_path(".");
   ctx.add_sysinclude_path(".");
@@ -144,21 +145,21 @@ bool Preprocessor::processString(const char *str, Tokens *tokens, std::string *f
           Token t;
 
           token_id id = token_id(*first);
-          t.type = convert(id);
+          t.tokenType = convert(id);
 
-          if (t.type != Token::Type::Whitespace)
+          if (t.tokenType != Token::Type::Whitespace)
           {
             t.fileName = fileNamePool.create(first->get_position().get_file().c_str());
             t.text = textPool.create(first->get_value().c_str());
             t.lineNumber = (int)first->get_position().get_line();
             t.columnNumber = (int)first->get_position().get_column();
 
-            if (t.type == Token::Type::Integer)
+            if (t.tokenType == Token::Type::Integer)
             {
               t.integer = atoi(t.text.c_str());
               t.real = (double)t.integer;
             }
-            else if (t.type == Token::Type::Real)
+            else if (t.tokenType == Token::Type::Real)
             {
               t.real = atof(t.text.c_str());
               t.integer = (int)t.real;

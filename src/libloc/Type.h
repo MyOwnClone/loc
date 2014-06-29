@@ -4,12 +4,24 @@
 
 namespace loc {
 
-class Type: public Base<Type>
+// Forward declarations
+class Namespace;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class LIBLOC_EXPORT Type
 {
   public:
     Type();
 
     virtual ~Type();
+    
+    Namespace *getNamespace() const { return _namespace; }
+
+  protected:
+
+  private:
+    Namespace *_namespace;
 };
 
 }
