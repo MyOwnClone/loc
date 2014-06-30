@@ -155,7 +155,35 @@ class BasicRefString
     bool operator!=(const_pointer str) const { return _data->string != str; }
     bool operator!=(const std::basic_string<value_type> &str) const { return _data->string != str; }
     bool operator!=(const BasicRefString &str) const { return _data->string != str._data->string; }
-    
+
+    BasicRefString &operator+=(value_type ch)
+    {
+      isolate();
+      _data->string += ch;
+      return *this;
+    }
+
+    BasicRefString &operator+=(const_pointer str)
+    {
+      isolate();
+      _data->string += str;
+      return *this;
+    }
+
+    BasicRefString &operator+=(const std::basic_string<value_type> &str)
+    {
+      isolate();
+      _data->string += str;
+      return *this;
+    }
+
+    BasicRefString &operator+=(const BasicRefString &str)
+    {
+      isolate();
+      _data->string += str._data->string;
+      return *this;
+    }
+
   private:
     struct Data
     {

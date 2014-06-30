@@ -56,6 +56,7 @@ struct LIBLOC_EXPORT Token
 
   Token();
 
+  static Type getTokenType(const char *text);
 };
 
 }
