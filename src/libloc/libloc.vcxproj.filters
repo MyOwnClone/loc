@@ -8,7 +8,7 @@
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="Method.cpp" />
-    <ClCompile Include="MarkerTokenizer.cpp" />
+    <ClCompile Include="AttributeTokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class.h" />
@@ -21,6 +21,6 @@
     <ClInclude Include="Method.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="StringUtils.h" />
-    <ClInclude Include="MarkerTokenizer.h" />
+    <ClInclude Include="AttributeTokenizer.h" />
   </ItemGroup>
 </Project>

@@ -35,6 +35,21 @@ static TokenTableItem g_TokenTable[] =
   { Token::Type::End, nullptr }
 };
 
+Token::Type Token::getTokenType(char ch)
+{
+  TokenTableItem *item = g_TokenTable;
+
+  while (item->text)
+  {
+    if (item->text[0] == ch)
+      return item->tokenType;
+
+    ++item;
+  }
+
+  return Token::Type::Unknown;
+}
+
 Token::Type Token::getTokenType(const char *text)
 {
   TokenTableItem *item = g_TokenTable;
@@ -42,6 +57,23 @@ Token::Type Token::getTokenType(const char *text)
   while (item->text)
   {
     if (!strcmp(text, item->text))
+      return item->tokenType;
+
+    ++item;
+  }
+
+  return Token::Type::Unknown;
+}
+
+Token::Type Token::getTokenType(const char *text, char ch)
+{
+  TokenTableItem *item = g_TokenTable;
+  size_t lenText = (size_t)strlen(text);
+
+  while (item->text)
+  {
+    size_t lenItem = (size_t)strlen(item->text);
+    if (lenText < lenItem && !memcmp(text, item->text, lenText) && item->text[lenText] == ch)
       return item->tokenType;
 
     ++item;

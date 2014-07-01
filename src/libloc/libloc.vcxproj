@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Class.cpp" />
-    <ClCompile Include="MarkerTokenizer.cpp" />
+    <ClCompile Include="AttributeTokenizer.cpp" />
     <ClCompile Include="Method.cpp" />
     <ClCompile Include="Namespace.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -135,7 +135,7 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Class.h" />
-    <ClInclude Include="MarkerTokenizer.h" />
+    <ClInclude Include="AttributeTokenizer.h" />
     <ClInclude Include="Method.h" />
     <ClInclude Include="Namespace.h" />
     <ClInclude Include="Parser.h" />

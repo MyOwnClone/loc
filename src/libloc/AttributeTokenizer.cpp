@@ -1,4 +1,4 @@
-#include "MarkerTokenizer.h"
+#include "AttributeTokenizer.h"
 
 namespace loc {
 
@@ -11,24 +11,24 @@ enum class ParseState
   WhiteSpace
 };
 
-bool MarkerTokenizer::isTextCharacter(char ch)
+bool AttributeTokenizer::isTextCharacter(char ch)
 {
   static const char *chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
   return strchr(chars, ch) != 0;
 }
 
-bool MarkerTokenizer::isTextCharacterAny(char ch)
+bool AttributeTokenizer::isTextCharacterAny(char ch)
 {
   static const char *chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$0123456789";
   return strchr(chars, ch) != 0;
 }
 
-bool MarkerTokenizer::isNumberCharacter(char ch)
+bool AttributeTokenizer::isNumberCharacter(char ch)
 {
   return (ch >= '0') && (ch <= '9');
 }
 
-bool MarkerTokenizer::isWhiteSpace(char ch)
+bool AttributeTokenizer::isWhiteSpace(char ch)
 {
   static const char *chars = " \t";
   return strchr(chars, ch) != 0;
@@ -36,22 +36,23 @@ bool MarkerTokenizer::isWhiteSpace(char ch)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MarkerTokenizer::MarkerTokenizer()
+AttributeTokenizer::AttributeTokenizer()
 {
 
 }
 
-MarkerTokenizer::~MarkerTokenizer()
+AttributeTokenizer::~AttributeTokenizer()
 {
 
 }
 
-bool MarkerTokenizer::tokenize(const char *text)
+bool AttributeTokenizer::tokenize(const char *text)
 {
   ParseState state = ParseState::Normal;
-  int cursor = 0;
+  size_t cursor = 0;
   Token token;
 
+  _tokens.clear();
   size_t textLen = (size_t)strlen(text);
 
   while (cursor <= textLen)
@@ -73,9 +74,9 @@ bool MarkerTokenizer::tokenize(const char *text)
           token.text = "";
           token.tokenType = Token::Type::Integer;
         }
-        else if (isOperator("" + ch))
+        else if (Token::getTokenType(ch) != Token::Type::Unknown)
         {
-          state = ParseState.Operator;
+          state = ParseState::Operator;
           token.text = "";
           token.tokenType = Token::Type::Unknown;
         }
@@ -93,7 +94,7 @@ bool MarkerTokenizer::tokenize(const char *text)
         }
         else
         {
-          Tokens.Add(token);
+          _tokens.push_back(token);
           state = ParseState::Normal;
         }
         break;
@@ -106,25 +107,22 @@ bool MarkerTokenizer::tokenize(const char *text)
         }
         else
         {
-          if (!int.TryParse(token.Text, out token.Number))
-            token.tokenType = Token::Type::Unknown;
-
-          Tokens.Add(token);
+          token.integer = atoi(token.text.c_str());
+          _tokens.push_back(token);
           state = ParseState::Normal;
         }
         break;
 
       case ParseState::Operator:
-        if (IsOperator(token.text + ch))
+        if (Token::getTokenType(token.text.c_str(), ch) != Token::Type::Unknown)
         {
           token.text += ch;
           ++cursor;
         }
         else
         {
-          token.tokenType = GetTokenType(token.text.c_str());
-
-          Tokens.Add(token);
+          token.tokenType = Token::getTokenType(token.text.c_str());
+          _tokens.push_back(token);
           state = ParseState::Normal;
         }
         break;

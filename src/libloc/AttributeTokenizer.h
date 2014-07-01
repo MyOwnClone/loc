@@ -4,12 +4,12 @@
 
 namespace loc {
 
-class MarkerTokenizer
+class AttributeTokenizer
 {
   public:
-    MarkerTokenizer();
+    AttributeTokenizer();
 
-    virtual ~MarkerTokenizer();
+    virtual ~AttributeTokenizer();
     
     bool tokenize(const char *text);
 
